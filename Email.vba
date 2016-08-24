@@ -30,9 +30,9 @@ Sub sendEmail()
    'Send email
     With OutMail
         .Display
-        '.To = "MyEmail"          'safety when testing.
-        .To = "Mailing list"      'Comment this out when testing. Can use mailing list or insert individual emails. Can link to cell in excel
-        .CC = ""
+        '.To = "MyEmail"          'Safety when testing.
+        .To = "Mailing list"      'Comment this out when testing. Can use mailing list or insert individual emails... 
+        .CC = ""                  'Can link to cell in excel
         .BCC = ""
         .Subject = "FooBar" & Format(Now, "yymmdd")
         .HTMLBody = strbody & "<br>" & .HTMLBody
