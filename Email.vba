@@ -6,14 +6,17 @@ Sub sendEmail()
     
     Title = "Title" & Format(Now, "yymmdd")
     
+'This script is currently set up for powerpoint(i.e. ActivePresentation.foo). Will need to modify export part to work with excel etc.
+
+'Export part
     PdfFile = ActivePresentation.Path & "\" & Title & ".pdf"
     DocRegister = "\\Document Control\Import\" & Title & ".pdf"
     
     'export pdfs
     ActivePresentation.ExportAsFixedFormat DocRegister, ppFixedFormatTypePDF, ppFixedFormatIntentPrint
-    ActivePresentation.ExportAsFixedFormat PdfFile, ppFixedFormatTypePDF, ppFixedFormatIntentPrint
+    ActivePresentation.ExportAsFixedFormat PdfFile, ppFixedFormatTypePDF, ppFixedFormatIntentPrint 'redundant I know but good to have copy in working folder instead of hunting down in the doc regerster.
  
-
+'Email part
     Set OutApp = CreateObject("Outlook.Application")
     Set OutMail = OutApp.CreateItem(0)
 
