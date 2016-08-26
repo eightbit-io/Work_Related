@@ -10,13 +10,11 @@ Sub sendEmail()
 'Will need to modify export part to work with excel etc.
 
 'Export part
-    PdfFile = ActivePresentation.Path & "\" & Title & ".pdf"
-    DocRegister = "\\Document Control\Import\" & Title & ".pdf"
+    PdfFile = "\\Document Control\Import\" & Title & ".pdf"
     
     'export pdfs
-    ActivePresentation.ExportAsFixedFormat DocRegister, ppFixedFormatTypePDF, ppFixedFormatIntentPrint
     ActivePresentation.ExportAsFixedFormat PdfFile, ppFixedFormatTypePDF, ppFixedFormatIntentPrint 
-    'redundant I know but good to have copy in working folder instead of hunting down in the doc regerster.
+
  
 'Email part
     Set OutApp = CreateObject("Outlook.Application")
@@ -41,6 +39,4 @@ Sub sendEmail()
 
     On Error GoTo 0
 
-
- 
 End Sub
