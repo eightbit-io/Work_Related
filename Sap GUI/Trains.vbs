@@ -1,10 +1,32 @@
+
+"""
+Purpose : This script automates the exceedingly manual task of entering trains into sap.
+Assumptions : SAP must already be running in the background. 
+Effects : Describes the effect the procedure has on each external variable, control, or other element
+Inputs: CSV file of trains taken from the CHPP report in the format:
+       Date,Shift,Con Note	Start Time,End Time	Total Time (Hrs/Mins),CV104 start,CV104 Finish,CV104 Weight,QR Weigher,Total Tonnes,Product	Bypass,Product Buckets,Bypass Buckets,Blend Ratio,Comment
+        It's probably work simplifying this at some point
+Return Values: Nil
+
+TODO
+1 check object is trains csv
+2 Check CSV Values are valid
+3 enter coal dirt wash etc confirmations.
+4 Strip blank lines from CSV. ie ",,,,,,,," 
+5 create complete label / error label, and check for before calling CreateProcessOrder
+6 create COOISPI function.
+
+"""
+
+
+
+
 Const ForReading = 1
 
 'select file dialog box:
 Set wShell=CreateObject("WScript.Shell")
 Set oExec=wShell.Exec("mshta.exe ""about:<input type=file id=FILE><script>FILE.click();new ActiveXObject('Scripting.FileSystemObject').GetStandardStream(1).WriteLine(FILE.value);close();resizeTo(0,0);</script>""")
 sFileSelected = oExec.StdOut.ReadLine
-wscript.echo sFileSelected
 
 ' Create file object
 Set objFSO = CreateObject("Scripting.FileSystemObject")
@@ -15,37 +37,21 @@ Set objFile = objFSO.OpenTextFile(sFileSelected, ForReading)
 
 
 
-' Do something with file object
-' If Not IsObject(application) Then
-'    Set SapGuiAuto  = GetObject("SAPGUI")
-'    Set application = SapGuiAuto.GetScriptingEngine
-' End If
-' If Not IsObject(connection) Then
-'    Set connection = application.Children(0)
-' End If
-' If Not IsObject(session) Then
-'    Set session    = connection.Children(0)
-' End If
-' If IsObject(WScript) Then
-'    WScript.ConnectObject session,     "on"
-'    WScript.ConnectObject application, "on"
-' End If
-' session.findById("wnd[0]").maximize
-' session.StartTransaction("COR1")
 
-
-
+'Main Loop
 Do Until objFile.AtEndOfStream
 
     strLine = objFile.ReadLine
     arrFields = Split(strLine, ",")
     'TODO: Strip blank lines. ie ",,,,,,,," 
     ' If Blankline Loop
+    'TODO: create complete label / error label, and check for before calling CreateProcessOrder
 
    'Values   
         Tonage = arrFields(10)
         trainDate = arrFields(0)
         trainID = arrFields(2)
+        'TODO Check Values are valid
  
  Call CreateProcessOrder(trainID, trainDate, Tonage)
 
@@ -55,6 +61,14 @@ objFile.Close
 
 
 
+
+ """
+Purpose : This Function actually creates the process orders in SAP
+Assumptions :	SAP must be running?
+Effects : Describes the effect the procedure has on each external variable, control, or other element
+Inputs: trainID, trainDate, Tonage Values that have been 
+Return Values: Nil
+"""
 
 Sub CreateProcessOrder(trainID, trainDate, Tonage)
 
@@ -100,11 +114,3 @@ session.findById("wnd[0]/tbar[0]/btn[11]").press ' Save
 
 End Sub
 
-
-
-
-'Stuff for C00ispsi
-'session.findById("wnd[0]/usr/cntlCUSTOM/shellcont/shell/shellcont/shell").setCurrentCell 6,"ZZTRAINID"
-' check zztrainid.value? = trainID?
-
-'session.findById("wnd[0]/usr/cntlCUSTOM/shellcont/shell/shellcont/shell").pressToolbarButton "&NAVIGATION_PROFILET0008"
