@@ -8,43 +8,26 @@
 '         It's probably work simplifying this at some point
 ' Return Values: Nil
 
-' TODO
-' 1 check object is trains csv
-' 2 Check CSV Values are valid
-' 3 enter coal dirt wash etc confirmations.
-' 4 Strip blank lines from CSV. ie ",,,,,,,," 
-' 5 create complete label / error label, and check for before calling CreateProcessOrder
-' 6 create COOISPI function.
+    MsgBox("Welcome to the Wizz Bang Train Proccess order and confirmation system. \n I'm here to make your life easier.")
 
-
-
-'Main
-    MsgBox("Welcome to the Wizz Bang Train Proccess order and confirmation system. I'm here to make your life easier.")
-
-    ' Dialog box to select train file
     trainFileLocation = SelectFile()
     set trainFile = ReadCSVFile(trainFileLocation)
-'     'TODO: check object is trains csv
-'     'TODO: enter coal dirt wash etc confirmations.
-    
-    set SapSession = CreateSAPConnection()
+    'set SapSession = CreateSAPConnection()
 
     Do Until trainFile.AtEndOfStream
+        train = trainFile.ReadLine
 
-        strLine = trainFile.ReadLine
-        arrFields = Split(strLine, ",")
-        'TODO: Strip blank lines. ie ",,,,,,,," 
-        ' If Blankline Loop
-        'TODO: create complete label / error label, and check for before calling CreateProcessOrder
-    'Values   
-            Tonage = arrFields(10)
-            trainDate = arrFields(0)
-            trainID = arrFields(2)
-            'TODO Check Values are valid
-
-    Call CreateProcessOrder(SapSession,trainID, trainDate, Tonage)
-
+            trainFields     =   Split(train, ",")   
+            Tonage          =   trainFields(10)
+            trainDate       =   trainFields(0)
+            trainID         =   trainFields(2)
+            washTonnage     =   trainFields(11)
+            bypassTonnage   =   trainFields(12)
+                
+            Call CreateProcessOrder(SapSession,trainID, trainDate, Tonage)
+            Call ConfirmProcessOrder(SapSession, Tonage)
     Loop
+
     trainFile.Close
     MsgBox("Process Complete")
 
@@ -126,4 +109,21 @@ Function CreateSAPConnection()
     'CreateSAPConnection 
 End Function
 
+Sub ConfirmProcessOrder(session)
+'Stub
 
+End sub
+
+
+' TODO
+' 1 check object is trains csv
+' 2 Check CSV Values are valid
+' 3 enter coal dirt wash etc confirmations.
+' 4 Strip blank lines from CSV. ie ",,,,,,,," 
+' 5 create complete label / error label, and check for before calling CreateProcessOrder
+' 6 create COOISPI function.
+' 7 check object is trains csv
+' 8 enter coal dirt wash etc confirmations.
+' 9 Strip blank lines. ie ",,,,,,,," 
+' 10 create complete label / error label, and check for before calling CreateProcessOrder
+' 11 Check Values are valid
