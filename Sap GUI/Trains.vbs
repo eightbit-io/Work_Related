@@ -8,9 +8,10 @@
 '         It's probably work simplifying this at some point
 ' Return Values: Nil
 
-    MsgBox("Welcome to the Wizz Bang Train Proccess order and confirmation system. \n I'm here to make your life easier.")
+    MsgBox "Welcome to the Wizz Bang Train Proccess Order and Confirmation system." & vbCrLf & "I'm here to make your life easier." , 0 ,"Wizz Bang Train Proccess Order and Confirmation system"
 
     trainFileLocation = SelectFile()
+    IF trainFileLocation = "" THEN Wscript.Quit
     set trainFile = ReadCSVFile(trainFileLocation)
     'set SapSession = CreateSAPConnection()
 
@@ -23,9 +24,10 @@
             trainID         =   trainFields(2)
             washTonnage     =   trainFields(11)
             bypassTonnage   =   trainFields(12)
-                
+            ' if washTonnage + bypassTonnage == tonage Then 
+
             Call CreateProcessOrder(SapSession,trainID, trainDate, Tonage)
-            Call ConfirmProcessOrder(SapSession, Tonage)
+            Call ConfirmProcessOrder(SapSession, Tonage, washTonnage, bypassTonnage, trainDate)
     Loop
 
     trainFile.Close
@@ -109,7 +111,7 @@ Function CreateSAPConnection()
     'CreateSAPConnection 
 End Function
 
-Sub ConfirmProcessOrder(session)
+Sub ConfirmProcessOrder(session, tonage, washTonnage, bypassTonnage, trainDate)
 'Stub
 
 End sub
