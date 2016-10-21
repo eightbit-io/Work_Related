@@ -16,7 +16,7 @@ End If
 
 session.findById("wnd[0]").maximize
 
-session.StartTransaction("ME51N") ' Create Purchas Req
+session.StartTransaction("ME51N") ' Create Purchase Req
 
 session.findById("wnd[0]/shellcont/shell/shellcont[1]/shell[1]").selectNode "         21"
 session.findById("wnd[0]/shellcont/shell/shellcont[1]/shell[1]").selectNode "         22"
@@ -59,18 +59,21 @@ session.findById("wnd[0]/usr/subSUB0:SAPLMEGUI:0020/subSUB3:SAPLMEVIEWS:1100/sub
 session.findById("wnd[0]/usr/subSUB0:SAPLMEGUI:0020/subSUB3:SAPLMEVIEWS:1100/subSUB2:SAPLMEVIEWS:1200/subSUB1:SAPLMEGUI:1301/subSUB1:SAPLMEGUI:6000/btn%#AUTOTEXT001").press
 session.findById("wnd[0]/usr/subSUB0:SAPLMEGUI:0020/subSUB3:SAPLMEVIEWS:1100/subSUB2:SAPLMEVIEWS:1200/subSUB1:SAPLMEGUI:1301/subSUB1:SAPLMEGUI:6000/btn%#AUTOTEXT001").press
 session.findById("wnd[0]/usr/subSUB0:SAPLMEGUI:0020/subSUB3:SAPLMEVIEWS:1100/subSUB2:SAPLMEVIEWS:1200/subSUB1:SAPLMEGUI:1301/subSUB2:SAPLMEGUI:3303/tabsREQ_ITEM_DETAIL/tabpTABREQDT15").select
-session.findById("wnd[0]/usr/subSUB0:SAPLMEGUI:0010/subSUB3:SAPLMEVIEWS:1100/subSUB2:SAPLMEVIEWS:1200/subSUB1:SAPLMEGUI:1301/subSUB2:SAPLMEGUI:3303/tabsREQ_ITEM_DETAIL/tabpTABREQDT15/ssubTABSTRIPCONTROL1SUB:SAPLMEGUI:1318/ssubCUSTOMER_DATA_ITEM:SAPLXM02:0111/btnBTN_APPROVAL").press
-session.findById("wnd[1]").sendVKey 4
-session.findById("wnd[2]/usr/lbl[1,13]").setFocus
-session.findById("wnd[2]/usr/lbl[1,13]").caretPosition = 2
-session.findById("wnd[2]").sendVKey 2
-session.findById("wnd[1]/usr/ctxtWF_POPUP-APPROVER").setFocus
-session.findById("wnd[1]/usr/ctxtWF_POPUP-APPROVER").caretPosition = 0
-session.findById("wnd[1]").sendVKey 4
-session.findById("wnd[2]/usr/lbl[1,6]").setFocus
-session.findById("wnd[2]/usr/lbl[1,6]").caretPosition = 4
-session.findById("wnd[2]").sendVKey 2
-session.findById("wnd[1]/tbar[0]/btn[2]").press
+
+    'Aproval
+    session.findById("wnd[0]/usr/subSUB0:SAPLMEGUI:0010/subSUB3:SAPLMEVIEWS:1100/subSUB2:SAPLMEVIEWS:1200/subSUB1:SAPLMEGUI:1301/subSUB2:SAPLMEGUI:3303/tabsREQ_ITEM_DETAIL/tabpTABREQDT15/ssubTABSTRIPCONTROL1SUB:SAPLMEGUI:1318/ssubCUSTOMER_DATA_ITEM:SAPLXM02:0111/btnBTN_APPROVAL").press
+    session.findById("wnd[1]").sendVKey 4
+    session.findById("wnd[2]/usr/lbl[1,13]").setFocus
+    session.findById("wnd[2]/usr/lbl[1,13]").caretPosition = 2
+    session.findById("wnd[2]").sendVKey 2
+    session.findById("wnd[1]/usr/ctxtWF_POPUP-APPROVER").setFocus
+    session.findById("wnd[1]/usr/ctxtWF_POPUP-APPROVER").caretPosition = 0
+    session.findById("wnd[1]").sendVKey 4
+    session.findById("wnd[2]/usr/lbl[1,6]").setFocus
+    session.findById("wnd[2]/usr/lbl[1,6]").caretPosition = 4
+    session.findById("wnd[2]").sendVKey 2
+    session.findById("wnd[1]/tbar[0]/btn[2]").press
+
 session.findById("wnd[0]/usr/subSUB0:SAPLMEGUI:0010/subSUB1:SAPLMEVIEWS:1100/subSUB2:SAPLMEVIEWS:1200/subSUB1:SAPLMEGUI:3102/tabsREQ_HEADER_DETAIL/tabpTABREQHDT1/ssubTABSTRIPCONTROL3SUB:SAPLMEGUI:1230/subTEXTS:SAPLMMTE:0100/subEDITOR:SAPLMMTE:0101/cntlTEXT_EDITOR_0101/shellcont/shell").text = "Q3 Hughes Drilling PO" + vbCr + ""
 
 session.findById("wnd[0]/usr/subSUB0:SAPLMEGUI:0010/subSUB1:SAPLMEVIEWS:1100/subSUB2:SAPLMEVIEWS:1200/subSUB1:SAPLMEGUI:3102/tabsREQ_HEADER_DETAIL/tabpTABREQHDT1/ssubTABSTRIPCONTROL3SUB:SAPLMEGUI:1230/subTEXTS:SAPLMMTE:0100/subEDITOR:SAPLMMTE:0101/cntlTEXT_EDITOR_0101/shellcont/shell").setSelectionIndexes 21,21
