@@ -1,5 +1,3 @@
-
-
 ' Purpose : This script automates the exceedingly manual task of entering trains into sap.
 ' Assumptions : SAP must already be running in the background. 
 ' Effects : Nil Yet
@@ -8,12 +6,16 @@
 '         It's probably work simplifying this at some point
 ' Return Values: Nil
 
-    MsgBox "Welcome to the Wizz Bang Train Proccess Order and Confirmation system." & vbCrLf & "I'm here to make your life easier." , 0 ,"Wizz Bang Train Proccess Order and Confirmation system"
+    WelcomeMessage = "Welcome to the Automatic Train Proccess Order and Confirmation system." & vbCrLf _
+                    & "I'm here to make your life easier." & vbCrLf & vbCrLf _
+                    & "Please Select a CSV of the trains you wish to process"
+                    'TODO : Come up with an Acronym
+
+    MsgBox  WelcomeMessage, 0 ,"Automatic Train Proccess Order and Confirmation system"
 
     trainFileLocation = SelectFile()
-    IF trainFileLocation = "" THEN Wscript.Quit
     set trainFile = ReadCSVFile(trainFileLocation)
-    'set SapSession = CreateSAPConnection()
+    set SapSession = CreateSAPConnection()
 
     Do Until trainFile.AtEndOfStream
         train = trainFile.ReadLine
@@ -27,7 +29,7 @@
             ' if washTonnage + bypassTonnage == tonage Then 
 
             Call CreateProcessOrder(SapSession,trainID, trainDate, Tonage)
-            Call ConfirmProcessOrder(SapSession, Tonage, washTonnage, bypassTonnage, trainDate)
+            'Call ConfirmProcessOrder(SapSession, Tonage, washTonnage, bypassTonnage, trainDate)
     Loop
 
     trainFile.Close
@@ -53,19 +55,18 @@ Sub CreateProcessOrder(session, trainID, trainDate, Tonage)
     session.findById("wnd[0]/usr/ctxtAFPOD-PWERK").text = "4622"
     session.findById("wnd[0]/tbar[0]/btn[0]").press
 
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/txtCAUFVD-GAMNG").text = Tonage
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/ctxtCAUFVD-GLTRP").text = trainDate
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/ctxtCAUFVD-GSTRP").text = trainDate
 
-    ' session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/txtCAUFVD-GAMNG").text = Tonage
-    ' session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/ctxtCAUFVD-GLTRP").text = trainDate
-    ' session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/ctxtCAUFVD-GSTRP").text = trainDate
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI").select    'Select Logistics
+    session.findById("wnd[0]").sendVKey 0                               'Enter Past Date 
+    session.findById("wnd[0]").sendVKey 0                               'Enter Past Date 
 
-    ' session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI").select    'Select Logistics
-    ' session.findById("wnd[0]").sendVKey 0                               'Enter Past Date 
-    ' session.findById("wnd[0]").sendVKey 0                               'Enter Past Date 
-
-    ' session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/txtCAUFVD-ZZTRAINID").text = trainID
-    ' session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/ctxtCAUFVD-ZZTICKETDATE").text = trainDate
-    ' session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/txtCAUFVD-ZZSTOCKPILE").text = "Stockpile 8"
-    ' session.findById("wnd[0]/tbar[0]/btn[11]").press ' Save
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/txtCAUFVD-ZZTRAINID").text = trainID
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/ctxtCAUFVD-ZZTICKETDATE").text = trainDate
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/txtCAUFVD-ZZSTOCKPILE").text = "Stockpile 8"
+    session.findById("wnd[0]/tbar[0]/btn[11]").press ' Save
 
 End Sub
 
@@ -79,6 +80,7 @@ Function SelectFile()
     Set wShell=CreateObject("WScript.Shell")
     Set oExec=wShell.Exec("mshta.exe ""about:<input type=file id=FILE><script>FILE.click();new ActiveXObject('Scripting.FileSystemObject').GetStandardStream(1).WriteLine(FILE.value);close();resizeTo(0,0);</script>""")
     SelectFile = oExec.StdOut.ReadLine
+    IF SelectFile = "" THEN Wscript.Quit
 
 End Function
 

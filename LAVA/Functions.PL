@@ -3,19 +3,22 @@
 
 $version = Lava::version() 
  
-    $version : Returns the current revision of Lava.
+    # $version : Returns the current revision of Lava.
  
 #This function returns the current project code.
 $prj = Lava::Project()
-    $prj : returned project code
+    # $prj : returned project code
+
 #This function returns the current environment code.
 $env = Lava::Project_Environment
-    $env : returned environment code
+    # $env : returned environment code
+
 #This function returns the name of the currently opened block model or a null string (if a block model is not open).
 $cbm = Lava::Current_BModel($mode)
-    $cbm  : return name of the currently opened block model (if applicable).
-    $mode : file name mode (0 = returns the whole path, 1 = file name only).
-    Note: $cbm will be set to a null string if there is no block model open.
+    # $cbm  : return name of the currently opened block model (if applicable).
+    # $mode : file name mode (0 = returns the whole path, 1 = file name only).
+    # Note: $cbm will be set to a null string if there is no block model open.
+
 #This function returns the name of the currently opened design database or an empty string (if no DGD is opened).
 $dgd = Lava::Current_DGDName($mode)
     $dgd  : return name of the currently openeddesign database (if applicable).
@@ -77,13 +80,13 @@ Lava::System($command, 1)
     $command : system command
 
 
-    "Lava::Contourer
-The Lava::Contourer object may be used to contour triangulations. The contours come back as objects, suitable for insertion into layers. To perform contouring, you first create a Lava::Contourer object,
-with the name of the triangulation that you want to contour in the constructor.
-Note Only one contourer object can exist at one time.
-This should not be a problem; just make sure that the contourer variable goes out of scope, undefine it, or reuse it, as with the selection object.
-Once created, you can get as many contours as required, using the "create_contour" method.
-For example, the following script allows the user to select a triangulation from the screen, it then opens a destination layer and appends various contours at the Z levels selected by the user:"
+# Lava::Contourer
+# The Lava::Contourer object may be used to contour triangulations. The contours come back as objects, suitable for insertion into layers. To perform contouring, you first create a Lava::Contourer object,
+# with the name of the triangulation that you want to contour in the constructor.
+# Note Only one contourer object can exist at one time.
+# This should not be a problem; just make sure that the contourer variable goes out of scope, undefine it, or reuse it, as with the selection object.
+# Once created, you can get as many contours as required, using the "create_contour" method.
+# For example, the following script allows the user to select a triangulation from the screen, it then opens a destination layer and appends various contours at the Z levels selected by the user:"
 
 use Lava;
  
@@ -127,7 +130,7 @@ if ( $tsel->is_valid() )
         }
     }
 }
-Methods:
+# Methods:
 $contour_instance = new Lava::Contourer($name)
  
     $contour_instance : returned Lava::Contourer instance.

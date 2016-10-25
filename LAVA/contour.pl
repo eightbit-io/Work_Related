@@ -11,7 +11,7 @@ use Macro;
                 "minor_cont" => "1.0",
                 "dropout_dist" => "0.0",
                 "use_scheme" => "0",
-                "contour_colour_scheme" => "",
+                "contour_colocur_scheme" => "",
                 "complement_relimit_area" => "1",
                 "button_pressed" => "extfwd",
                 "contour_normal" => "1",
