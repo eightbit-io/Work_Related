@@ -1,4 +1,18 @@
 
+'***********************************************************************************************************
+'Purpose: Simplify the Monthly Entering of Material Orders in SAP
+' 
+'Assumptions : SAP must already be running in the background. 
+'Inputs: This scirpt will ask for the start and end date of the month and the budget targets
+
+'TODO
+'1 Create a month function
+'2 Look at setting this up for the whole year? Maybe a Budget spreadheet or dictionary?
+'3 Think of more things to do
+
+' Created By Chris Saunders (October 2016)
+'***********************************************************************************************************
+
 Site = "4621"    'Change this for other sites
 
 DIM session
@@ -6,6 +20,9 @@ Call CreateSAPConnection
     
     StartMonth = InputBox("Start Date")
     EndMonth = InputBox("End Date")
+    StartMonth = replace(StartMonth,"/",".")
+    EndMonth = replace(EndMonth,"/",".")
+
     WasteTarget = InputBox("Waste Target")
     BlastTarget = InputBox("Blast Target")
     CoalTarget = InputBox("Coal Target")
@@ -37,8 +54,6 @@ Sub CreateMaterialOrders(material, target)
     ' session.findById("wnd[0]").sendVKey 0
     ' session.findById("wnd[0]").sendVKey 0
 End Sub
-
-
 
 Sub CreateSAPConnection()
     

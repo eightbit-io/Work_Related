@@ -1,10 +1,32 @@
+
+'***********************************************************************************************************
 ' Purpose : This script automates the exceedingly manual task of entering trains into sap.
-' Assumptions : SAP must already be running in the background. 
-' Effects : Nil Yet
+' 
+'Assumptions : SAP must already be running in the background. 
+' 
 ' Inputs: CSV file of trains taken from the CHPP report in the format:
-'        Date,Shift,Con Note	Start Time,End Time	Total Time (Hrs/Mins),CV104 start,CV104 Finish,CV104 Weight,QR Weigher,Total Tonnes,Product	Bypass,Product Buckets,Bypass Buckets,Blend Ratio,Comment
-'         It's probably work simplifying this at some point
-' Return Values: Nil
+'        Date,Shift,Con Note	Start Time,End Time	Total Time (Hrs/Mins),CV104 start, _
+        'CV104 Finish,CV104 Weight,QR Weigher,Total Tonnes,Product	Bypass,Product Buckets,_
+        'Bypass Buckets,Blend Ratio,Comment
+'        It's probably work simplifying this at some point
+'
+'
+' TODO
+' 1 check object is trains csv
+' 2 Check CSV Values are valid
+' 3 enter coal dirt wash etc confirmations.
+' 4 Strip blank lines from CSV. ie ",,,,,,,," 
+' 5 create complete label / error label, and check for before calling CreateProcessOrder
+' 6 create COOISPI function.
+' 7 check object is trains csv
+' 8 enter coal dirt wash etc confirmations.
+' 9 Strip blank lines. ie ",,,,,,,," 
+' 10 create complete label / error label, and check for before calling CreateProcessOrder
+' 11 Check Values are valid
+'
+'
+' Created By Chris Saunders (October 2016)
+'***********************************************************************************************************
 
     WelcomeMessage = "Welcome to the Automatic Train Proccess Order and Confirmation system." & vbCrLf _
                     & "I'm here to make your life easier." & vbCrLf & vbCrLf _
@@ -41,11 +63,6 @@
 'Functions
 Sub CreateProcessOrder(session, trainID, trainDate, Tonage)
     ' Purpose : This Function actually creates the process orders in SAP
-    ' Assumptions :	SAP must be running? session = CreateSAPConnection
-    ' Effects : Describes the effect the procedure has on each external variable, control, or other element
-    ' Inputs: session trainID, trainDate, Tonage Values that have been 
-    ' Return Values: Nil
-
 
     session.findById("wnd[0]").maximize
     session.StartTransaction("COR1")
@@ -73,8 +90,6 @@ End Sub
 Function SelectFile()
     ' Purpose : This Function opens a dialog box to select the file containing the csv of trains
     ' Assumptions :	file is a csv of trains
-    ' Effects : Describes the effect the procedure has on each external variable, control, or other element
-    ' Inputs: nil
     ' Return Values: returns string of file location to to create an object
 
     Set wShell=CreateObject("WScript.Shell")
@@ -119,15 +134,4 @@ Sub ConfirmProcessOrder(session, tonage, washTonnage, bypassTonnage, trainDate)
 End sub
 
 
-' TODO
-' 1 check object is trains csv
-' 2 Check CSV Values are valid
-' 3 enter coal dirt wash etc confirmations.
-' 4 Strip blank lines from CSV. ie ",,,,,,,," 
-' 5 create complete label / error label, and check for before calling CreateProcessOrder
-' 6 create COOISPI function.
-' 7 check object is trains csv
-' 8 enter coal dirt wash etc confirmations.
-' 9 Strip blank lines. ie ",,,,,,,," 
-' 10 create complete label / error label, and check for before calling CreateProcessOrder
-' 11 Check Values are valid
+
