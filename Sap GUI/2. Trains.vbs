@@ -1,16 +1,17 @@
-
-'***********************************************************************************************************
-' Purpose : This script automates the exceedingly manual task of entering trains into sap.
-' 
-'Assumptions : SAP must already be running in the background. 
-' 
-' Inputs: CSV file of trains taken from the CHPP report in the format:
-'        Date,Shift,Con Note	Start Time,End Time	Total Time (Hrs/Mins),CV104 start, _
-        'CV104 Finish,CV104 Weight,QR Weigher,Total Tonnes,Product	Bypass,Product Buckets,_
-        'Bypass Buckets,Blend Ratio,Comment
-'        It's probably work simplifying this at some point
+'======================================================================================================================
+'   _____          _                       ____                                 ___          _           
+'  |_   _| __ __ _(_)_ __  ___            |  _ \ _ __ ___   ___ ___  ___ ___   / _ \ _ __ __| | ___ _ __ 
+'    | || '__/ _` | | '_ \/ __|   _____   | |_) | '__/ _ \ / __/ _ \/ __/ __| | | | | '__/ _` |/ _ \ '__|
+'    | || | | (_| | | | | \__ \  |_____|  |  __/| | | (_) | (_|  __/\__ \__ \ | |_| | | | (_| |  __/ |   
+'    |_||_|  \__,_|_|_| |_|___/           |_|   |_|  \___/ \___\___||___/___/  \___/|_|  \__,_|\___|_|
+                                                                                                                                       
+'   This script automates the exceedingly manual task of entering trains into sap.
+'   You will need to have SAP already running in another window. Then double click on the script to run.
+'  
+'   Inputs: CSV file of trains taken from the CHPP report in the current format:
 '
-'
+'   Created By Chris Saunders (October 2016)
+'======================================================================================================================
 ' TODO
 ' 1 check object is trains csv
 ' 2 Check CSV Values are valid
@@ -23,10 +24,7 @@
 ' 9 Strip blank lines. ie ",,,,,,,," 
 ' 10 create complete label / error label, and check for before calling CreateProcessOrder
 ' 11 Check Values are valid
-'
-'
-' Created By Chris Saunders (October 2016)
-'***********************************************************************************************************
+'======================================================================================================================
 
     WelcomeMessage = "Welcome to the Automatic Train Proccess Order and Confirmation system." & vbCrLf _
                     & "I'm here to make your life easier." & vbCrLf & vbCrLf _
