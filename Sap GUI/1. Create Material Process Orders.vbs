@@ -13,13 +13,13 @@
 
 ' Update the date and targets from the budget.
 
-                WasteTarget = "1008615"
-                BlastTarget =  "279186"
-                CoalTarget  =  "216058"
-                WashTarget  =   "96623"
-                CrushTarget =   "38380"
+                WasteTarget = "783190"
+                BlastTarget =  "300872"
+                CoalTarget  =  "131802"
+                WashTarget  =   "87002"
+                CrushTarget =   "29700"
                 
-                Todaysdate  = "3/11/16"     ' Must be todays date. 
+                Todaysdate  = "19/12/16"     ' Must be todays date. 
                 Site        = "4621"        ' Change this for other sites
 
 
@@ -36,7 +36,7 @@
     If CDATE(Todaysdate) <> Date Then MsgBox("Please open the script and edit the dates and targets"), WScript.Quit
     
     StartMonth = replace(dateserial(year(Todaysdate),month(Todaysdate),1),"/",".")
-    EndMonth = replace(dateadd("m",1,startmonth)-1,"/",".")
+    EndMonth = replace(dateserial(year(Todaysdate),month(Todaysdate)+1,0),"/",".")
 
     ' Setup SAP
     DIM session
@@ -47,8 +47,9 @@
     Call CreateMaterialOrders("B010", WasteTarget)
     Call CreateMaterialOrders("B020", BlastTarget)
     Call CreateMaterialOrders("R031", CoalTarget)
-    Call CreateMaterialOrders("P031", WashTarget)
-    Call CreateMaterialOrders("P032", CrushTarget)
+    'Call CreateMaterialOrders("P031", CrushTarget)
+    Call CreateMaterialOrders("P032", WashTarget)
+
 
 
 '======================================================================================================================
@@ -67,11 +68,11 @@
         session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/txtCAUFVD-GAMNG").text = target
         session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/ctxtCAUFVD-GLTRP").text = EndMonth
         session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/ctxtCAUFVD-GSTRP").text = StartMonth
-
+	
         'Save
         session.findById("wnd[0]/tbar[1]/btn[30]").press
         session.findById("wnd[0]").sendVKey 0
-        session.findById("wnd[0]").sendVKey 0
+	session.findById("wnd[0]/tbar[0]/btn[11]").press
 
     End Sub
 

@@ -81,7 +81,15 @@ Sub CreateProcessOrder(session, trainID, trainDate, Tonage)
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/txtCAUFVD-ZZTRAINID").text = trainID
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/ctxtCAUFVD-ZZTICKETDATE").text = trainDate
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/txtCAUFVD-ZZSTOCKPILE").text = "Stockpile 8"
+    
+    session.findById("wnd[0]/tbar[1]/btn[7]").press
+    session.findById("wnd[0]/usr/tblSAPLCOMKTCTRL_5120/txtRESBD-MENGE[4,1]").text = bypassTonnage
+    session.findById("wnd[0]/usr/tblSAPLCOMKTCTRL_5120/txtRESBD-MENGE[4,3]").text = washTonnage
+    'session.findById("wnd[0]/usr/tblSAPLCOMKTCTRL_5120/ctxtRESBD-CHARG[9,1]").text = "BYPCRUSH"
+    'session.findById("wnd[0]/usr/tblSAPLCOMKTCTRL_5120/ctxtRESBD-CHARG[9,3]").text = "WASHPROD" 
     session.findById("wnd[0]/tbar[0]/btn[11]").press ' Save
+    session.findById("wnd[0]").sendVKey 0   
+    session.findById("wnd[0]").sendVKey 0    
 
 End Sub
 
