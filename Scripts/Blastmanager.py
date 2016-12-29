@@ -43,36 +43,12 @@
     https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt
 """
 
+import string # used in string.ascii_lowercase for main loop
 
-class BlastHole:
-    """ Blast hole class
-        requires : Hole name, colar x, collar y, and length.
-        initialises all other properties of a blast hole.
-        Calculates properties as they become availible.
-    """
-    """The summary line for a class docstring should fit on one line.
+class DrillHole:
+    """Call that for each blast hole"""
 
-        If the class has public attributes, they may be documented here
-        in an ``Attributes`` section and follow the same formatting as a
-        function's ``Args`` section. Alternatively, attributes may be documented
-        inline with the attribute's declaration (see __init__ method below).
-
-        Properties created with the ``@property`` decorator should be documented
-        in the property's getter method.
-
-        Attributes
-        ----------
-        attr1 : str
-            Description of `attr1`.
-        attr2 : :obj:`int`, optional
-            Description of `attr2`.
-
-    """
-
-    holecount = 0
-    shot = []
-
-    def __init__(self, name): #, collarX, collarY, length)
+    def __init__(self, holeid, collar_x, collar_y, holelength):
         """Example of docstring on the __init__ method.
 
             The __init__ method may be documented in either the class level
@@ -87,44 +63,64 @@ class BlastHole:
 
             Parameters
             ----------
-            param1 : str
-                Description of `param1`.
-            param2 : :obj:`list` of :obj:`str`
-                Description of `param2`. Multiple
-                lines are supported.
-            param3 : :obj:`int`, optional
-                Description of `param3`.
+            holeid : str
+                the hole ID eg A1 -> a10
+
+            collarX : int
+                Collar location in the x direction. GDA 94
+
+            collarY : int
+                Collar location in the x direction. GDA 94
+
+            length : int
+                Down hole depth in metres
+
             """
 
-        BlastHole.holecount += 1 # increase hole count
+        self.holeid = holeid
+        self.collar_x = collar_x
+        self.collar_y = collar_y
+        self.holelength = holelength
 
-        # Create given object properties
-        self.name = "A" + str(name+1)
-        #self.collar_X = collarX
-        #self.collar_Y = collarY
-        #self.design_depth = length
+    def stemlength():
+        pass
 
-        # Drilling Properties
-        self.drilled_depth = None
-        self.hard_start = None
-        self.hard_finish = None
-        self.drilled_date = None
+    def holetonnage():
+        pass
 
-        # Blasting Properties
-        self.dip_depth = None
-        self.water_depth = None
 
-        if self.hard_start is None:
-            self.stem_height = 5
-        elif self.hard_start < 3:
-            self.stem_height = 3
-        elif self.hard_start > 5:
-            self.hard_start = 5
-        else:
-            self.hard_start = self.hard_start
+class CambeyBlast:
+    """ Class that contains full detials and methods for each blast.
 
-        # Calculate object properties
-        #self.blast_volume = self.collarX * self.collarY * self.length
+        requires : Hole name, colar x, collar y, and length.
+        initialises all other properties of a blast hole.
+        Calculates properties as they become availible.
+
+        If the class has public attributes, they may be documented here
+        in an ``Attributes`` section and follow the same formatting as a
+        function's ``Args`` section. Alternatively, attributes may be documented
+        inline with the attribute's declaration (see __init__ method below).
+
+        Attributes
+        ----------
+        attr1 : str
+            Description of `attr1`.
+        attr2 : :obj:`int`, optional
+            Description of `attr2`.
+
+    """
+
+    def __init__(self, name):
+        self.blastname = name
+        self.holes = []
+
+    def createholes(self, holeid, collar_x, collar_y, holelength):
+        """ Add holes to list created in init"""
+        self.holes.append(DrillHole(holeid, collar_x, collar_y, holelength))
+
+
+
+
 
 
     def example_method(self, param1, param2):
@@ -155,11 +151,9 @@ class BlastHole:
 
 if __name__ == "__main__":
 
-    for x in range(10):
-        # print(len(shot), " holes created")
-        pass
+    BLAST = CambeyBlast("YC053")
+    for x in string.ascii_lowercase:
+        BLAST.createholes(x, 10, 10, 10)
 
-    for x in range(10):
-        newhole = BlastHole(x)
-        # shot.append(newhole)
-        # print("added hole : ", shot[x].name)
+    for hole in BLAST.holes:
+        print(hole.holeid)
