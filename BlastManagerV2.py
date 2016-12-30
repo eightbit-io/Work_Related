@@ -1,5 +1,10 @@
-
+#!/usr/bin/env python3
 """Clean skin blast manager"""
+__modulename__ = "Blast Manager"
+__author__ = "chris"
+__version__ = "0.0.2a"
+__date__ = "2016-12-30"
+__status__ = "pre-alpha"
 
 class Drillhole:
     """Generic Drill Hole Class"""
@@ -8,6 +13,7 @@ class Drillhole:
 
     def __str__(self):
         return "not yet implemented"
+
 
 class Blast:
     """Generic Blast Class"""
@@ -30,6 +36,9 @@ class Blast:
         pass
 
 
+
+
+
 if __name__ == "__main__":
-    print("\nworking\n")
+    print("\n", __modulename__, __status__, __version__, "by", __author__, "Last Updated:", __date__, sep=' ')
 
