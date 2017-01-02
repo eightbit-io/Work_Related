@@ -8,8 +8,11 @@ __status__ = "pre-alpha"
 
 class Drillhole:
     """Generic Drill Hole Class"""
-    def __init__(self):
-        pass
+    def __init__(self, holeid, collar_x, collar_y, depth):
+        self.holeid = holeid
+        self.collar_x = collar_x
+        self.collar_y = collar_y
+        self.depth = depth
 
     def __str__(self):
         return "not yet implemented"
@@ -17,8 +20,9 @@ class Drillhole:
 
 class Blast:
     """Generic Blast Class"""
-    def __init__(self):
-        pass
+    def __init__(self, id):
+        self.blastname = id
+        
 
     def __str__(self):
         return "not yet implemented"

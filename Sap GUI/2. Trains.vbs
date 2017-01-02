@@ -1,29 +1,24 @@
 '======================================================================================================================
-'   _____          _                       ____                                 ___          _           
-'  |_   _| __ __ _(_)_ __  ___            |  _ \ _ __ ___   ___ ___  ___ ___   / _ \ _ __ __| | ___ _ __ 
-'    | || '__/ _` | | '_ \/ __|   _____   | |_) | '__/ _ \ / __/ _ \/ __/ __| | | | | '__/ _` |/ _ \ '__|
-'    | || | | (_| | | | | \__ \  |_____|  |  __/| | | (_) | (_|  __/\__ \__ \ | |_| | | | (_| |  __/ |   
-'    |_||_|  \__,_|_|_| |_|___/           |_|   |_|  \___/ \___\___||___/___/  \___/|_|  \__,_|\___|_|
-                                                                                                                                       
+'   / Trains - Proccess Order / 
+'                                                                                                                                   
 '   This script automates the exceedingly manual task of entering trains into sap.
 '   You will need to have SAP already running in another window. Then double click on the script to run.
 '  
 '   Inputs: CSV file of trains taken from the CHPP report in the current format:
 '
 '   Created By Chris Saunders (October 2016)
+'   Last Updated : 2017-01-03
 '======================================================================================================================
 ' TODO
-' 1 check object is trains csv
-' 2 Check CSV Values are valid
-' 3 enter coal dirt wash etc confirmations.
-' 4 Strip blank lines from CSV. ie ",,,,,,,," 
-' 5 create complete label / error label, and check for before calling CreateProcessOrder
-' 6 create COOISPI function.
-' 7 check object is trains csv
-' 8 enter coal dirt wash etc confirmations.
-' 9 Strip blank lines. ie ",,,,,,,," 
-' 10 create complete label / error label, and check for before calling CreateProcessOrder
-' 11 Check Values are valid
+' [ ] check object is trains csv
+' [ ] Check CSV Values are valid
+' [ ] Enter coal dirt wash etc confirmations.
+' [ ] Strip blank lines from CSV. ie ",,,,,,,," 
+' [ ] Create complete label / error label, and check for before calling CreateProcessOrder
+' [ ] Create COOISPI function.
+' [ ] Enter coal dirt wash etc confirmations.
+' [ ] Create complete label / error label, and check for before calling CreateProcessOrder
+' [ ] Check Values are valid
 '======================================================================================================================
 
     WelcomeMessage = "Welcome to the Automatic Train Proccess Order and Confirmation system." & vbCrLf _
@@ -36,7 +31,9 @@
     trainFileLocation = SelectFile()
     set trainFile = ReadCSVFile(trainFileLocation)
     set SapSession = CreateSAPConnection()
-
+    
+    x = 3   'Counter for train batch number
+    
     Do Until trainFile.AtEndOfStream
         train = trainFile.ReadLine
 
@@ -50,6 +47,7 @@
 
             Call CreateProcessOrder(SapSession,trainID, trainDate, Tonage)
             'Call ConfirmProcessOrder(SapSession, Tonage, washTonnage, bypassTonnage, trainDate)
+            x = x+1
     Loop
 
     trainFile.Close
@@ -60,6 +58,7 @@
 
 'Functions
 Sub CreateProcessOrder(session, trainID, trainDate, Tonage)
+    
     ' Purpose : This Function actually creates the process orders in SAP
 
     session.findById("wnd[0]").maximize
@@ -74,10 +73,18 @@ Sub CreateProcessOrder(session, trainID, trainDate, Tonage)
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/ctxtCAUFVD-GLTRP").text = trainDate
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOZE/ssubSUBSCR_5115:SAPLCOKO:5120/ctxtCAUFVD-GSTRP").text = trainDate
 
+    
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOWE").select    'Select Goods Reciept
+    session.findById("wnd[0]").sendVKey 0                               'Enter Past Date 
+    session.findById("wnd[0]").sendVKey 0                               'Enter Past Date 
+    
+     
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabpKOWE/ssubSUBSCR_5115:SAPLCOKO:5190/ctxtAFPOD-CHARG").text = "CD" & "161231" & x 
+    session.findById("wnd[0]").maximize
+    session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI").select
+    session.findById("wnd[1]/usr/btnSPOP-VAROPTION1").press
+    
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI").select    'Select Logistics
-    session.findById("wnd[0]").sendVKey 0                               'Enter Past Date 
-    session.findById("wnd[0]").sendVKey 0                               'Enter Past Date 
-
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/txtCAUFVD-ZZTRAINID").text = trainID
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/ctxtCAUFVD-ZZTICKETDATE").text = trainDate
     session.findById("wnd[0]/usr/tabsTABSTRIP_5115/tabp+COI/ssubSUBSCR_5115:SAPLCOKO:5900/subSSCR115:SAPLXCO1:5100/txtCAUFVD-ZZSTOCKPILE").text = "Stockpile 8"
@@ -85,11 +92,11 @@ Sub CreateProcessOrder(session, trainID, trainDate, Tonage)
     session.findById("wnd[0]/tbar[1]/btn[7]").press
     session.findById("wnd[0]/usr/tblSAPLCOMKTCTRL_5120/txtRESBD-MENGE[4,1]").text = bypassTonnage
     session.findById("wnd[0]/usr/tblSAPLCOMKTCTRL_5120/txtRESBD-MENGE[4,3]").text = washTonnage
-    'session.findById("wnd[0]/usr/tblSAPLCOMKTCTRL_5120/ctxtRESBD-CHARG[9,1]").text = "BYPCRUSH"
-    'session.findById("wnd[0]/usr/tblSAPLCOMKTCTRL_5120/ctxtRESBD-CHARG[9,3]").text = "WASHPROD" 
     session.findById("wnd[0]/tbar[0]/btn[11]").press ' Save
     session.findById("wnd[0]").sendVKey 0   
-    session.findById("wnd[0]").sendVKey 0    
+    session.findById("wnd[0]").sendVKey 0
+    session.findById("wnd[1]/usr/btnSPOP-OPTION1").press
+
 
 End Sub
 

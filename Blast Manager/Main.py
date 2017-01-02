@@ -1,3 +1,6 @@
-import BlastManagerV2
+#!/usr/bin/env python3
+"""Blasting Front end"""
 
-print(BlastManagerV2.__author__)
+import BlastManagerClasses
+
+print(BlastManagerClasses.__author__)

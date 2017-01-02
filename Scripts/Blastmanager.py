@@ -48,7 +48,7 @@ import string # used in string.ascii_lowercase for main loop
 class DrillHole:
     """Call that for each blast hole"""
 
-    def __init__(self, holeid, collar_x, collar_y, holelength):
+    def __init__(self, holeid, collar_x, collar_y, holelength ):
         """Example of docstring on the __init__ method.
 
             The __init__ method may be documented in either the class level
