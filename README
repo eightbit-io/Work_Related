@@ -1,8 +1,10 @@
             / Work_Related /
 
-            /  Lava  /
+
+/  Lava  /
 Scripting Language File for Maptek Vulcan. 
 Written in Perl.
+
 
 / Sap Gui /
 SapGuiScritping files 
@@ -18,8 +20,7 @@ to complete tasks in a repeatable way.
     - IFdate
     - Open File
 
+
 /  VBA /
-
 Sap Gui Scripting
-
 http://stackoverflow.com/questions/19452461/vba-pulling-data-from-sap-for-dummies
